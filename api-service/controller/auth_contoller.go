@@ -28,6 +28,17 @@ func NewAuthController(newAuthService service.AuthService, newValidator *validat
 	}
 }
 
+// @Summary Register a new user
+// @Description Register a new user with the provided credentials
+// @ID register-user
+// @Accept json
+// @Produce json
+// @Router /register [post]
+// @Param user body model.RequestRegister true "User registration details"
+// @Success 200 {object} model.ResponseSwagRegister "User registered successfully"
+// @Failure 404 {object} model.Response "User not found"
+// @Failure 412 {object} model.Response "Failed"
+// @Failure 500 {object} model.Response "Internal Server Error"
 func (controller *authControllerImpl) Register(ctx echo.Context) error {
 	var request model.RequestRegister
 	err := ctx.Bind(&request)
@@ -47,6 +58,17 @@ func (controller *authControllerImpl) Register(ctx echo.Context) error {
 	return helpers.GenerateResponse(ctx, statusCode, message, data, nil)
 }
 
+// @Summary Login User
+// @Description Login user for get credentials with JWT Auth
+// @ID login-user
+// @Accept json
+// @Produce json
+// @Router /login [post]
+// @Param user body model.RequestLogin true "User Login details"
+// @Success 200 {object} model.ResponseSwagLogin "User login successfully"
+// @Failure 404 {object} model.Response "User not found"
+// @Failure 412 {object} model.Response "Failed"
+// @Failure 500 {object} model.Response "Internal Server Error"
 func (controller *authControllerImpl) Login(ctx echo.Context) error {
 	var request model.RequestLogin
 	err := ctx.Bind(&request)

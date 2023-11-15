@@ -18,12 +18,12 @@ type AuthService interface {
 }
 
 type authServiceImpl struct {
-	AuthRepository repository.UsersRepository
+	UsersRepository repository.UsersRepository
 }
 
-func NewAuthService(newAuthRepository repository.UsersRepository) AuthService {
+func NewAuthService(newUsersRepository repository.UsersRepository) AuthService {
 	return &authServiceImpl{
-		AuthRepository: newAuthRepository,
+		UsersRepository: newUsersRepository,
 	}
 }
 
@@ -41,7 +41,27 @@ func (service *authServiceImpl) ProcessRegister(ctx echo.Context, request model.
 	}
 	reqCreateUser.CreatedAt = int(time.Now().Unix())
 
-	result := service.AuthRepository.CreateUser(ctx, reqCreateUser)
+	resultDetailUser := service.UsersRepository.DetailUser(ctx, model.RepoRequestDetailUser{
+		Filter: map[string]interface{}{
+			"username": reqCreateUser.Username,
+		},
+	})
+
+	if resultDetailUser.IsError {
+		message = resultDetailUser.ErrorMessage.Error()
+		statusCode = config.Failed
+
+		return
+	}
+
+	if resultDetailUser.Data.UserID > 0 {
+		message = "The User Has Been Registered"
+		statusCode = config.Failed
+
+		return
+	}
+
+	result := service.UsersRepository.CreateUser(ctx, reqCreateUser)
 
 	if result.IsNotFound {
 		message = "Data Not Found"
@@ -77,7 +97,7 @@ func (service *authServiceImpl) ProcessLogin(ctx echo.Context, request model.Req
 	}
 	reqCreateUser.CreatedAt = int(time.Now().Unix())
 
-	detailUser := service.AuthRepository.DetailUser(ctx, model.RepoRequestDetailUser{
+	detailUser := service.UsersRepository.DetailUser(ctx, model.RepoRequestDetailUser{
 		Filter: map[string]interface{}{
 			"username": request.Username,
 		},

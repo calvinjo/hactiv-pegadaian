@@ -1,10 +1,12 @@
 package repository
 
 import (
+	"errors"
 	"transaction-service/config"
 	"transaction-service/model"
 
 	"github.com/labstack/echo/v4"
+	"gorm.io/gorm"
 )
 
 type InstallmentRepository interface {
@@ -28,8 +30,10 @@ func NewInstallmentRepository(db config.PostgreSql) InstallmentRepository {
 func (repository *InstallmentRepositoryImpl) GetAllInstallment(ctx echo.Context, filter map[string]interface{}) (result []model.Installment, err error) {
 	tx := repository.Postgre.Db.Where(filter).Find(&result)
 	if tx.Error != nil {
-		err = tx.Error
-		return
+		if !errors.Is(tx.Error, gorm.ErrRecordNotFound) {
+			err = tx.Error
+			return
+		}
 	}
 	return
 }
@@ -37,8 +41,10 @@ func (repository *InstallmentRepositoryImpl) GetAllInstallment(ctx echo.Context,
 func (repository *InstallmentRepositoryImpl) GetDetailInstallment(ctx echo.Context, filter map[string]interface{}) (result model.Installment, err error) {
 	tx := repository.Postgre.Db.Where(filter).First(&result)
 	if tx.Error != nil {
-		err = tx.Error
-		return
+		if !errors.Is(tx.Error, gorm.ErrRecordNotFound) {
+			err = tx.Error
+			return
+		}
 	}
 	return
 }

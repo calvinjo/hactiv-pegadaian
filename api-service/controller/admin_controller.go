@@ -41,6 +41,18 @@ func NewAdminController(newAdminService service.AdminService, newValidator *vali
 	}
 }
 
+// @Summary Admin - List User
+// @ID admin-list-user
+// @Accept json
+// @Produce json
+// @Router /admin/list-user [get]
+// @Security ApiKeyAuth
+// @param Authorization header string true "Bearer token"
+// @Success 200 {object} model.ResponseSwagDataAllUsers "Success"
+// @Failure 404 {object} model.Response "Not found"
+// @Failure 412 {object} model.Response "Failed"
+// @Failure 500 {object} model.Response "Internal Server Error"
+// @Tags Admin
 func (controller *adminControllerImpl) RequestGetListUsers(ctx echo.Context) error {
 
 	message, statusCode, data := controller.AdminService.ProcessGetListUsers(ctx)
@@ -48,6 +60,19 @@ func (controller *adminControllerImpl) RequestGetListUsers(ctx echo.Context) err
 	return helpers.GenerateResponse(ctx, statusCode, message, data, nil)
 }
 
+// @Summary Admin - Detail User
+// @ID admin-detail-user
+// @Accept json
+// @Produce json
+// @Router /admin/detail-user/{id} [get]
+// @Param id path int true "User ID" Format(int64)
+// @Security ApiKeyAuth
+// @param Authorization header string true "Bearer token"
+// @Success 200 {object} model.ResponseSwagDataUsers "Success"
+// @Failure 404 {object} model.Response "Not found"
+// @Failure 412 {object} model.Response "Failed"
+// @Failure 500 {object} model.Response "Internal Server Error"
+// @Tags Admin
 func (controller *adminControllerImpl) RequestGetDetailUsers(ctx echo.Context) error {
 	id := ctx.Param("id")
 
@@ -56,6 +81,19 @@ func (controller *adminControllerImpl) RequestGetDetailUsers(ctx echo.Context) e
 	return helpers.GenerateResponse(ctx, statusCode, message, data, nil)
 }
 
+// @Summary Admin - Create User
+// @ID admin-create-user
+// @Accept json
+// @Produce json
+// @Router /admin/create-user [post]
+// @Security ApiKeyAuth
+// @param Authorization header string true "Bearer token"
+// @Param Request body model.RequestCreateUsers true "Request"
+// @Success 200 {object} model.ResponseSwagDataUsers "Success"
+// @Failure 404 {object} model.Response "Not found"
+// @Failure 412 {object} model.Response "Failed"
+// @Failure 500 {object} model.Response "Internal Server Error"
+// @Tags Admin
 func (controller *adminControllerImpl) RequestCreateUsers(ctx echo.Context) error {
 	var request model.RequestCreateUsers
 	err := ctx.Bind(&request)
@@ -75,6 +113,20 @@ func (controller *adminControllerImpl) RequestCreateUsers(ctx echo.Context) erro
 	return helpers.GenerateResponse(ctx, statusCode, message, data, nil)
 }
 
+// @Summary Admin - Update User
+// @ID admin-update-user
+// @Accept json
+// @Produce json
+// @Router /admin/update-user/{id} [put]
+// @Param id path int true "User ID" Format(int64)
+// @Security ApiKeyAuth
+// @param Authorization header string true "Bearer token"
+// @Param Request body model.RequestUpdateUsers true "Request"
+// @Success 200 {object} model.ResponseSwagDataUsers "Success"
+// @Failure 404 {object} model.Response "Not found"
+// @Failure 412 {object} model.Response "Failed"
+// @Failure 500 {object} model.Response "Internal Server Error"
+// @Tags Admin
 func (controller *adminControllerImpl) RequestUpdateUsers(ctx echo.Context) error {
 	id := ctx.Param("id")
 
@@ -96,6 +148,19 @@ func (controller *adminControllerImpl) RequestUpdateUsers(ctx echo.Context) erro
 	return helpers.GenerateResponse(ctx, statusCode, message, data, nil)
 }
 
+// @Summary Admin - Delete User
+// @ID admin-delete-user
+// @Accept json
+// @Produce json
+// @Router /admin/delete-user/{id} [delete]
+// @Param id path int true "User ID" Format(int64)
+// @Security ApiKeyAuth
+// @param Authorization header string true "Bearer token"
+// @Success 200 {object} model.ResponseSwagDataUsers "Success"
+// @Failure 404 {object} model.Response "Not found"
+// @Failure 412 {object} model.Response "Failed"
+// @Failure 500 {object} model.Response "Internal Server Error"
+// @Tags Admin
 func (controller *adminControllerImpl) RequestDeleteUsers(ctx echo.Context) error {
 	id := ctx.Param("id")
 
@@ -104,6 +169,19 @@ func (controller *adminControllerImpl) RequestDeleteUsers(ctx echo.Context) erro
 	return helpers.GenerateResponse(ctx, statusCode, message, data, nil)
 }
 
+// @Summary Admin - List Loan
+// @ID admin-list-loan
+// @Accept json
+// @Produce json
+// @Router /admin/list-loan [get]
+// @Security ApiKeyAuth
+// @param Authorization header string true "Bearer token"
+// @Param Params query model.RequestListLoan true "Request"
+// @Success 200 {object} model.ResponseSwagDataAllLoan "Success"
+// @Failure 404 {object} model.Response "Not found"
+// @Failure 412 {object} model.Response "Failed"
+// @Failure 500 {object} model.Response "Internal Server Error"
+// @Tags Admin
 func (controller *adminControllerImpl) RequestGetListLoan(ctx echo.Context) error {
 	var request model.RequestListLoan
 	err := ctx.Bind(&request)
@@ -123,6 +201,19 @@ func (controller *adminControllerImpl) RequestGetListLoan(ctx echo.Context) erro
 	return helpers.GenerateResponse(ctx, statusCode, message, data, nil)
 }
 
+// @Summary Admin - Detail Loan
+// @ID admin-detail-loan
+// @Accept json
+// @Produce json
+// @Router /admin/detail-loan/{id} [get]
+// @Param id path int true "Loan ID" Format(int64)
+// @Security ApiKeyAuth
+// @param Authorization header string true "Bearer token"
+// @Success 200 {object} model.ResponseSwagDataLoan "Success"
+// @Failure 404 {object} model.Response "Not found"
+// @Failure 412 {object} model.Response "Failed"
+// @Failure 500 {object} model.Response "Internal Server Error"
+// @Tags Admin
 func (controller *adminControllerImpl) RequestGetDetailLoan(ctx echo.Context) error {
 	id := ctx.Param("id")
 
@@ -131,6 +222,20 @@ func (controller *adminControllerImpl) RequestGetDetailLoan(ctx echo.Context) er
 	return helpers.GenerateResponse(ctx, statusCode, message, data, nil)
 }
 
+// @Summary Admin - Update Status
+// @ID admin-update-status-loan
+// @Accept json
+// @Produce json
+// @Router /admin/update-status-loan/{id} [patch]
+// @Param id path int true "Loan ID" Format(int64)
+// @Security ApiKeyAuth
+// @param Authorization header string true "Bearer token"
+// @Param Request body model.RequestUpdateStatusLoan true "Request"
+// @Success 200 {object} model.ResponseSwagDataUsers "Success"
+// @Failure 404 {object} model.Response "Not found"
+// @Failure 412 {object} model.Response "Failed"
+// @Failure 500 {object} model.Response "Internal Server Error"
+// @Tags Admin
 func (controller *adminControllerImpl) RequestUpdateStatusLoan(ctx echo.Context) error {
 	id := ctx.Param("id")
 
@@ -152,6 +257,19 @@ func (controller *adminControllerImpl) RequestUpdateStatusLoan(ctx echo.Context)
 	return helpers.GenerateResponse(ctx, statusCode, message, data, nil)
 }
 
+// @Summary Admin - List Max Loan
+// @ID admin-list-max-loan
+// @Accept json
+// @Produce json
+// @Router /admin/list-max-loan [get]
+// @Security ApiKeyAuth
+// @param Authorization header string true "Bearer token"
+// @Param Params query model.RequestListMaxLoan true "Request"
+// @Success 200 {object} model.ResponseSwagDataAllMaxLoan"Success"
+// @Failure 404 {object} model.Response "Not found"
+// @Failure 412 {object} model.Response "Failed"
+// @Failure 500 {object} model.Response "Internal Server Error"
+// @Tags Admin
 func (controller *adminControllerImpl) RequestGetListMaxLoan(ctx echo.Context) error {
 	var request model.RequestListMaxLoan
 	err := ctx.Bind(&request)
@@ -171,6 +289,19 @@ func (controller *adminControllerImpl) RequestGetListMaxLoan(ctx echo.Context) e
 	return helpers.GenerateResponse(ctx, statusCode, message, data, nil)
 }
 
+// @Summary Admin - Detail Max Loan
+// @ID admin-detail-max-loan
+// @Accept json
+// @Produce json
+// @Router /admin/detail-max-loan/{id} [get]
+// @Param id path int true "Loan ID" Format(int64)
+// @Security ApiKeyAuth
+// @param Authorization header string true "Bearer token"
+// @Success 200 {object} model.ResponseSwagDataMaxLoan "Success"
+// @Failure 404 {object} model.Response "Not found"
+// @Failure 412 {object} model.Response "Failed"
+// @Failure 500 {object} model.Response "Internal Server Error"
+// @Tags Admin
 func (controller *adminControllerImpl) RequestGetDetailMaxLoan(ctx echo.Context) error {
 	id := ctx.Param("id")
 
@@ -179,6 +310,20 @@ func (controller *adminControllerImpl) RequestGetDetailMaxLoan(ctx echo.Context)
 	return helpers.GenerateResponse(ctx, statusCode, message, data, nil)
 }
 
+// @Summary Admin - Update Max Loan
+// @ID admin-update-max-loan
+// @Accept json
+// @Produce json
+// @Router /admin/update-max-loan/{id} [put]
+// @Param id path int true "User ID" Format(int64)
+// @Security ApiKeyAuth
+// @param Authorization header string true "Bearer token"
+// @Param Request body model.RequestUpdateMaxLoan true "Request"
+// @Success 200 {object} model.ResponseSwagDataLoan "Success"
+// @Failure 404 {object} model.Response "Not found"
+// @Failure 412 {object} model.Response "Failed"
+// @Failure 500 {object} model.Response "Internal Server Error"
+// @Tags Admin
 func (controller *adminControllerImpl) RequestUpdateMaxLoan(ctx echo.Context) error {
 	id := ctx.Param("id")
 
@@ -200,6 +345,19 @@ func (controller *adminControllerImpl) RequestUpdateMaxLoan(ctx echo.Context) er
 	return helpers.GenerateResponse(ctx, statusCode, message, data, nil)
 }
 
+// @Summary Admin - List Installment
+// @ID admin-list-installment
+// @Accept json
+// @Produce json
+// @Router /admin/list-installment [get]
+// @Security ApiKeyAuth
+// @param Authorization header string true "Bearer token"
+// @Param Params query model.RequestListInstallment true "Request"
+// @Success 200 {object} model.ResponseSwagDataAllInstallment "Success"
+// @Failure 404 {object} model.Response "Not found"
+// @Failure 412 {object} model.Response "Failed"
+// @Failure 500 {object} model.Response "Internal Server Error"
+// @Tags Admin
 func (controller *adminControllerImpl) RequestGetListInstallment(ctx echo.Context) error {
 
 	var request model.RequestListInstallment

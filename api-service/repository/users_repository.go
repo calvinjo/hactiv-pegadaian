@@ -105,6 +105,7 @@ func (repository *usersRepositoryImpl) CreateUser(ctx echo.Context, request mode
 
 		return
 	}
+
 	if resp.StatusCode() == 404 {
 		result.IsNotFound = true
 		return

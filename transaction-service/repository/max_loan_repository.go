@@ -30,8 +30,10 @@ func NewMaxLoanRepository(db config.PostgreSql) MaxLoanRepository {
 func (repository *MaxLoanRepositoryImpl) GetAllMaxLoan(ctx echo.Context, filter map[string]interface{}) (result []model.MaxLoan, err error) {
 	tx := repository.Postgre.Db.Where(filter).Find(&result)
 	if tx.Error != nil {
-		err = tx.Error
-		return
+		if !errors.Is(tx.Error, gorm.ErrRecordNotFound) {
+			err = tx.Error
+			return
+		}
 	}
 	return
 }

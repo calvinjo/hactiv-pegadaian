@@ -99,6 +99,26 @@ func (service *adminServiceImpl) ProcessCreateUsers(ctx echo.Context, request mo
 	}
 	reqCreateUser.CreatedAt = int(time.Now().Unix())
 
+	resultDetailUser := service.UsersRepository.DetailUser(ctx, model.RepoRequestDetailUser{
+		Filter: map[string]interface{}{
+			"username": reqCreateUser.Username,
+		},
+	})
+
+	if resultDetailUser.IsError {
+		message = resultDetailUser.ErrorMessage.Error()
+		statusCode = config.Failed
+
+		return
+	}
+
+	if resultDetailUser.Data.UserID > 0 {
+		message = "The User Has Been Registered"
+		statusCode = config.Failed
+
+		return
+	}
+
 	result := service.UsersRepository.CreateUser(ctx, reqCreateUser)
 
 	if result.IsNotFound {
@@ -133,6 +153,27 @@ func (service *adminServiceImpl) ProcessUpdateUsers(ctx echo.Context, request mo
 
 		return
 	}
+
+	resultDetailUser := service.UsersRepository.DetailUser(ctx, model.RepoRequestDetailUser{
+		Filter: map[string]interface{}{
+			"username": reqUpdateUser.Username,
+		},
+	})
+
+	if resultDetailUser.IsError {
+		message = resultDetailUser.ErrorMessage.Error()
+		statusCode = config.Failed
+
+		return
+	}
+
+	if resultDetailUser.Data.UserID > 0 || (resultDetailUser.Data.UserID > 0 && resultDetailUser.Data.Username != reqUpdateUser.Username) {
+		message = "The User Has Been Registered"
+		statusCode = config.Failed
+
+		return
+	}
+
 	reqUpdateUser.Filter = map[string]interface{}{
 		"id": id,
 	}

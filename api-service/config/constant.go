@@ -5,7 +5,7 @@ const (
 	InternalServerError = "500"
 	InvalidFieldFormat  = "400"
 	Failed              = "412"
-	DataNotFound        = "400"
+	DataNotFound        = "404"
 )
 
 var listResponse = map[string]string{

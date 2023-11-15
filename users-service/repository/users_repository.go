@@ -1,10 +1,12 @@
 package repository
 
 import (
+	"errors"
 	"users-service/config"
 	"users-service/model"
 
 	"github.com/labstack/echo/v4"
+	"gorm.io/gorm"
 )
 
 type UsersRepository interface {
@@ -28,8 +30,10 @@ func NewUsersRepository(db config.PostgreSql) UsersRepository {
 func (repository *usersRepositoryImpl) GetAllUser(ctx echo.Context) (result []model.Users, err error) {
 	tx := repository.Postgre.Db.Find(&result)
 	if tx.Error != nil {
-		err = tx.Error
-		return
+		if !errors.Is(tx.Error, gorm.ErrRecordNotFound) {
+			err = tx.Error
+			return
+		}
 	}
 	return
 }
@@ -37,8 +41,10 @@ func (repository *usersRepositoryImpl) GetAllUser(ctx echo.Context) (result []mo
 func (repository *usersRepositoryImpl) GetDetailUser(ctx echo.Context, filter map[string]interface{}) (result model.Users, err error) {
 	tx := repository.Postgre.Db.Where(filter).First(&result)
 	if tx.Error != nil {
-		err = tx.Error
-		return
+		if !errors.Is(tx.Error, gorm.ErrRecordNotFound) {
+			err = tx.Error
+			return
+		}
 	}
 	return
 }

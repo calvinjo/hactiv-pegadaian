@@ -3,13 +3,18 @@ package main
 import (
 	"api-service/config"
 	"api-service/controller"
+	"api-service/docs"
 	"api-service/model"
 	"api-service/repository"
 	"api-service/service"
 
+	_ "api-service/docs"
+
 	"github.com/golang-jwt/jwt/v5"
 	echojwt "github.com/labstack/echo-jwt/v4"
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
+	echoSwagger "github.com/swaggo/echo-swagger"
 )
 
 func main() {
@@ -32,8 +37,17 @@ func main() {
 
 	app := echo.New()
 	app.Debug = true
+	app.Use(middleware.CORSWithConfig(middleware.CORSConfig{
+		AllowOrigins: []string{"*"},
+		AllowHeaders: []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept},
+	}))
 
-	//Route public
+	// @title Swagger API Gateway Service
+	// @version 1.0
+	// @description This is a sample server API Service Gateway.
+	// @BasePath /api/v1
+	docs.SwaggerInfo.Host = "0.0.0.0:" + env.AppsPort
+
 	app.POST("/api/v1/register", func(ctx echo.Context) error {
 		return AuthController.Register(ctx)
 	})
@@ -41,6 +55,8 @@ func main() {
 	app.POST("/api/v1/login", func(ctx echo.Context) error {
 		return AuthController.Login(ctx)
 	})
+
+	app.GET("/swagger/*", echoSwagger.WrapHandler)
 
 	//Setup JWT Echo
 	config := echojwt.Config{

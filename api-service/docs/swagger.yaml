@@ -1,0 +1,1278 @@
+basePath: /api/v1
+definitions:
+  model.RequestCreateInstallment:
+    properties:
+      loan_id:
+        example: 1
+        type: integer
+      nominal:
+        example: 100000
+        type: integer
+    required:
+    - loan_id
+    - nominal
+    type: object
+  model.RequestCreateLoan:
+    properties:
+      item:
+        example: emas
+        type: string
+      nominal:
+        example: 100000
+        type: integer
+      period_installment:
+        enum:
+        - 4
+        - 8
+        - 12
+        - 16
+        example: 4
+        type: integer
+    required:
+    - item
+    - nominal
+    - period_installment
+    type: object
+  model.RequestCreateUsers:
+    properties:
+      confirm_password:
+        example: "123456"
+        type: string
+      password:
+        example: "123456"
+        type: string
+      roles:
+        enum:
+        - admin
+        - customer
+        example: admin
+        type: string
+      username:
+        example: john_doe
+        type: string
+    required:
+    - confirm_password
+    - password
+    - roles
+    - username
+    type: object
+  model.RequestLogin:
+    properties:
+      password:
+        example: password123
+        type: string
+      username:
+        example: john_doe
+        type: string
+    required:
+    - password
+    - username
+    type: object
+  model.RequestRegister:
+    properties:
+      confirm_password:
+        example: password123
+        type: string
+      password:
+        example: password123
+        type: string
+      roles:
+        enum:
+        - admin
+        - customer
+        example: admin
+        type: string
+      username:
+        example: john_doe
+        type: string
+    required:
+    - confirm_password
+    - password
+    - roles
+    - username
+    type: object
+  model.RequestUpdateLoan:
+    properties:
+      item:
+        example: emas
+        type: string
+      nominal:
+        example: 100000
+        type: integer
+      period_installment:
+        enum:
+        - 4
+        - 8
+        - 12
+        - 16
+        example: 4
+        type: integer
+    required:
+    - item
+    - nominal
+    - period_installment
+    type: object
+  model.RequestUpdateMaxLoan:
+    properties:
+      current:
+        example: 1000
+        type: integer
+      limit:
+        example: 10000
+        type: integer
+    type: object
+  model.RequestUpdateStatusLoan:
+    properties:
+      status_loan:
+        enum:
+        - approved
+        - disapproved
+        example: approved
+        type: string
+    required:
+    - status_loan
+    type: object
+  model.RequestUpdateUsers:
+    properties:
+      confirm_password:
+        example: "123456"
+        type: string
+      password:
+        example: "123456"
+        type: string
+      roles:
+        example: admin
+        type: string
+      username:
+        example: john_doe
+        type: string
+    required:
+    - confirm_password
+    - password
+    - roles
+    - username
+    type: object
+  model.Response:
+    properties:
+      data: {}
+      message:
+        type: string
+      responseCode:
+        type: string
+    type: object
+  model.ResponseAllDataInstallment:
+    properties:
+      id:
+        example: 1
+        type: integer
+      loan_id:
+        example: 1
+        type: integer
+      nominal:
+        example: 100000
+        type: integer
+      payment_at:
+        example: 1699960246
+        type: integer
+      user_id:
+        example: 1
+        type: integer
+    type: object
+  model.ResponseAllDataLoan:
+    properties:
+      cost_installment:
+        example: 200000
+        type: integer
+      created_at:
+        example: 1699960246
+        type: integer
+      id:
+        example: 1
+        type: integer
+      item:
+        example: emas
+        type: string
+      nominal:
+        example: 100000
+        type: integer
+      paid:
+        example: 0
+        type: integer
+      period_installment:
+        example: 4
+        type: integer
+      remain_installment:
+        example: 100000
+        type: integer
+      status_loan:
+        example: pending
+        type: string
+      user_id:
+        example: 1
+        type: integer
+    type: object
+  model.ResponseAllDataMaxLoan:
+    properties:
+      current:
+        example: 1000000
+        type: integer
+      id:
+        example: 1
+        type: integer
+      limit:
+        example: 1000000
+        type: integer
+      user_id:
+        example: 1
+        type: integer
+    type: object
+  model.ResponseAllDataUsers:
+    properties:
+      created_at:
+        description: Password  string `json:"password" mapstructure:"password"`
+        example: 1699960246
+        type: integer
+      roles:
+        example: customer
+        type: string
+      user_id:
+        example: 1
+        type: integer
+      username:
+        example: john_doe
+        type: string
+    type: object
+  model.ResponseDetailLoan:
+    properties:
+      data_loan:
+        $ref: '#/definitions/model.ResponseAllDataLoan'
+      history_installment:
+        items:
+          $ref: '#/definitions/model.ResponseAllDataInstallment'
+        type: array
+    type: object
+  model.ResponseLogin:
+    properties:
+      roles:
+        example: admin
+        type: string
+      token:
+        example: eyJhbGciOiJIUzI1
+        type: string
+      user_id:
+        example: 1
+        type: integer
+    type: object
+  model.ResponseRegister:
+    properties:
+      roles:
+        example: admin
+        type: string
+      user_id:
+        example: 1
+        type: integer
+    type: object
+  model.ResponseSwagDataAllInstallment:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/model.ResponseAllDataInstallment'
+        type: array
+      message:
+        example: Example Message
+        type: string
+      responseCode:
+        example: 200/404/412
+        type: string
+    type: object
+  model.ResponseSwagDataAllLoan:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/model.ResponseAllDataLoan'
+        type: array
+      message:
+        example: Example Message
+        type: string
+      responseCode:
+        example: 200/404/412
+        type: string
+    type: object
+  model.ResponseSwagDataAllMaxLoan:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/model.ResponseAllDataMaxLoan'
+        type: array
+      message:
+        example: Example Message
+        type: string
+      responseCode:
+        example: 200/404/412
+        type: string
+    type: object
+  model.ResponseSwagDataAllUsers:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/model.ResponseAllDataUsers'
+        type: array
+      message:
+        example: Example Message
+        type: string
+      responseCode:
+        example: 200/404/412
+        type: string
+    type: object
+  model.ResponseSwagDataInstallment:
+    properties:
+      data:
+        $ref: '#/definitions/model.ResponseAllDataInstallment'
+      message:
+        example: Example Message
+        type: string
+      responseCode:
+        example: 200/404/412
+        type: string
+    type: object
+  model.ResponseSwagDataLoan:
+    properties:
+      data:
+        $ref: '#/definitions/model.ResponseAllDataLoan'
+      message:
+        example: Example Message
+        type: string
+      responseCode:
+        example: 200/404/412
+        type: string
+    type: object
+  model.ResponseSwagDataMaxLoan:
+    properties:
+      data:
+        $ref: '#/definitions/model.ResponseAllDataMaxLoan'
+      message:
+        example: Example Message
+        type: string
+      responseCode:
+        example: 200/404/412
+        type: string
+    type: object
+  model.ResponseSwagDataUsers:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/model.ResponseAllDataUsers'
+        type: array
+      message:
+        example: Example Message
+        type: string
+      responseCode:
+        example: 200/404/412
+        type: string
+    type: object
+  model.ResponseSwagDetailLoan:
+    properties:
+      data:
+        $ref: '#/definitions/model.ResponseDetailLoan'
+      message:
+        example: Example Message
+        type: string
+      responseCode:
+        example: 200/404/412
+        type: string
+    type: object
+  model.ResponseSwagGetProfile:
+    properties:
+      data:
+        $ref: '#/definitions/model.ResponseAllDataUsers'
+      message:
+        example: Example Message
+        type: string
+      responseCode:
+        example: 200/404/412
+        type: string
+    type: object
+  model.ResponseSwagLogin:
+    properties:
+      data:
+        $ref: '#/definitions/model.ResponseLogin'
+      message:
+        example: Example Message
+        type: string
+      responseCode:
+        example: 200/404/412
+        type: string
+    type: object
+  model.ResponseSwagRegister:
+    properties:
+      data:
+        $ref: '#/definitions/model.ResponseRegister'
+      message:
+        example: Example Message
+        type: string
+      responseCode:
+        example: 200/404/412
+        type: string
+    type: object
+info:
+  contact: {}
+  description: This is a sample server API Service Gateway.
+  title: Swagger API Gateway Service
+  version: "1.0"
+paths:
+  /admin/create-user:
+    post:
+      consumes:
+      - application/json
+      operationId: admin-create-user
+      parameters:
+      - description: Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Request
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/model.RequestCreateUsers'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: '#/definitions/model.ResponseSwagDataUsers'
+        "404":
+          description: Not found
+          schema:
+            $ref: '#/definitions/model.Response'
+        "412":
+          description: Failed
+          schema:
+            $ref: '#/definitions/model.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/model.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: Admin - Create User
+      tags:
+      - Admin
+  /admin/delete-user/{id}:
+    delete:
+      consumes:
+      - application/json
+      operationId: admin-delete-user
+      parameters:
+      - description: User ID
+        format: int64
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: '#/definitions/model.ResponseSwagDataUsers'
+        "404":
+          description: Not found
+          schema:
+            $ref: '#/definitions/model.Response'
+        "412":
+          description: Failed
+          schema:
+            $ref: '#/definitions/model.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/model.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: Admin - Delete User
+      tags:
+      - Admin
+  /admin/detail-loan/{id}:
+    get:
+      consumes:
+      - application/json
+      operationId: admin-detail-loan
+      parameters:
+      - description: Loan ID
+        format: int64
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: '#/definitions/model.ResponseSwagDataLoan'
+        "404":
+          description: Not found
+          schema:
+            $ref: '#/definitions/model.Response'
+        "412":
+          description: Failed
+          schema:
+            $ref: '#/definitions/model.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/model.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: Admin - Detail Loan
+      tags:
+      - Admin
+  /admin/detail-max-loan/{id}:
+    get:
+      consumes:
+      - application/json
+      operationId: admin-detail-max-loan
+      parameters:
+      - description: Loan ID
+        format: int64
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: '#/definitions/model.ResponseSwagDataMaxLoan'
+        "404":
+          description: Not found
+          schema:
+            $ref: '#/definitions/model.Response'
+        "412":
+          description: Failed
+          schema:
+            $ref: '#/definitions/model.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/model.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: Admin - Detail Max Loan
+      tags:
+      - Admin
+  /admin/detail-user/{id}:
+    get:
+      consumes:
+      - application/json
+      operationId: admin-detail-user
+      parameters:
+      - description: User ID
+        format: int64
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: '#/definitions/model.ResponseSwagDataUsers'
+        "404":
+          description: Not found
+          schema:
+            $ref: '#/definitions/model.Response'
+        "412":
+          description: Failed
+          schema:
+            $ref: '#/definitions/model.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/model.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: Admin - Detail User
+      tags:
+      - Admin
+  /admin/list-installment:
+    get:
+      consumes:
+      - application/json
+      operationId: admin-list-installment
+      parameters:
+      - description: Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - in: query
+        name: loan_id
+        type: string
+      - in: query
+        name: user_id
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: '#/definitions/model.ResponseSwagDataAllInstallment'
+        "404":
+          description: Not found
+          schema:
+            $ref: '#/definitions/model.Response'
+        "412":
+          description: Failed
+          schema:
+            $ref: '#/definitions/model.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/model.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: Admin - List Installment
+      tags:
+      - Admin
+  /admin/list-loan:
+    get:
+      consumes:
+      - application/json
+      operationId: admin-list-loan
+      parameters:
+      - description: Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - example: pending
+        in: query
+        name: status_loan
+        type: string
+      - example: "1"
+        in: query
+        name: user_id
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: '#/definitions/model.ResponseSwagDataAllLoan'
+        "404":
+          description: Not found
+          schema:
+            $ref: '#/definitions/model.Response'
+        "412":
+          description: Failed
+          schema:
+            $ref: '#/definitions/model.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/model.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: Admin - List Loan
+      tags:
+      - Admin
+  /admin/list-max-loan:
+    get:
+      consumes:
+      - application/json
+      operationId: admin-list-max-loan
+      parameters:
+      - description: Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - example: "1"
+        in: query
+        name: user_id
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: '#/definitions/model.ResponseSwagDataAllMaxLoan'
+        "404":
+          description: Not found
+          schema:
+            $ref: '#/definitions/model.Response'
+        "412":
+          description: Failed
+          schema:
+            $ref: '#/definitions/model.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/model.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: Admin - List Max Loan
+      tags:
+      - Admin
+  /admin/list-user:
+    get:
+      consumes:
+      - application/json
+      operationId: admin-list-user
+      parameters:
+      - description: Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: '#/definitions/model.ResponseSwagDataAllUsers'
+        "404":
+          description: Not found
+          schema:
+            $ref: '#/definitions/model.Response'
+        "412":
+          description: Failed
+          schema:
+            $ref: '#/definitions/model.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/model.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: Admin - List User
+      tags:
+      - Admin
+  /admin/update-max-loan/{id}:
+    put:
+      consumes:
+      - application/json
+      operationId: admin-update-max-loan
+      parameters:
+      - description: User ID
+        format: int64
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Request
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/model.RequestUpdateMaxLoan'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: '#/definitions/model.ResponseSwagDataLoan'
+        "404":
+          description: Not found
+          schema:
+            $ref: '#/definitions/model.Response'
+        "412":
+          description: Failed
+          schema:
+            $ref: '#/definitions/model.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/model.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: Admin - Update Max Loan
+      tags:
+      - Admin
+  /admin/update-status-loan/{id}:
+    patch:
+      consumes:
+      - application/json
+      operationId: admin-update-status-loan
+      parameters:
+      - description: Loan ID
+        format: int64
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Request
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/model.RequestUpdateStatusLoan'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: '#/definitions/model.ResponseSwagDataUsers'
+        "404":
+          description: Not found
+          schema:
+            $ref: '#/definitions/model.Response'
+        "412":
+          description: Failed
+          schema:
+            $ref: '#/definitions/model.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/model.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: Admin - Update Status
+      tags:
+      - Admin
+  /admin/update-user/{id}:
+    put:
+      consumes:
+      - application/json
+      operationId: admin-update-user
+      parameters:
+      - description: User ID
+        format: int64
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Request
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/model.RequestUpdateUsers'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: '#/definitions/model.ResponseSwagDataUsers'
+        "404":
+          description: Not found
+          schema:
+            $ref: '#/definitions/model.Response'
+        "412":
+          description: Failed
+          schema:
+            $ref: '#/definitions/model.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/model.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: Admin - Update User
+      tags:
+      - Admin
+  /customer/create-installment:
+    post:
+      consumes:
+      - application/json
+      operationId: customer-create-installment
+      parameters:
+      - description: Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Request
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/model.RequestCreateInstallment'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: '#/definitions/model.ResponseSwagDataInstallment'
+        "404":
+          description: Not found
+          schema:
+            $ref: '#/definitions/model.Response'
+        "412":
+          description: Failed
+          schema:
+            $ref: '#/definitions/model.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/model.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: Customer - Create Installment
+      tags:
+      - Customer
+  /customer/create-loan:
+    post:
+      consumes:
+      - application/json
+      operationId: customer-create-loan
+      parameters:
+      - description: Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Request
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/model.RequestCreateLoan'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: '#/definitions/model.ResponseSwagDataLoan'
+        "404":
+          description: Not found
+          schema:
+            $ref: '#/definitions/model.Response'
+        "412":
+          description: Failed
+          schema:
+            $ref: '#/definitions/model.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/model.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: Customer - Create Loan
+      tags:
+      - Customer
+  /customer/detail-loan/{id}:
+    get:
+      consumes:
+      - application/json
+      operationId: customer-detail-loan
+      parameters:
+      - description: Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Loan ID
+        format: int64
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: '#/definitions/model.ResponseSwagDetailLoan'
+        "404":
+          description: Not found
+          schema:
+            $ref: '#/definitions/model.Response'
+        "412":
+          description: Failed
+          schema:
+            $ref: '#/definitions/model.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/model.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: Customer - Detail Loan
+      tags:
+      - Customer
+  /customer/history-installment:
+    get:
+      consumes:
+      - application/json
+      operationId: customer-history-installment
+      parameters:
+      - description: Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: '#/definitions/model.ResponseSwagDataAllInstallment'
+        "404":
+          description: Not found
+          schema:
+            $ref: '#/definitions/model.Response'
+        "412":
+          description: Failed
+          schema:
+            $ref: '#/definitions/model.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/model.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: Customer - History Installment
+      tags:
+      - Customer
+  /customer/list-loan:
+    get:
+      consumes:
+      - application/json
+      operationId: customer-list-loan
+      parameters:
+      - description: Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Status value (pending, paid, approved, disapproved)
+        enum:
+        - pending
+        - paid
+        - approved
+        - disapproved
+        in: query
+        name: status
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: '#/definitions/model.ResponseSwagDataAllLoan'
+        "404":
+          description: Not found
+          schema:
+            $ref: '#/definitions/model.Response'
+        "412":
+          description: Failed
+          schema:
+            $ref: '#/definitions/model.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/model.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: Customer - List Loan
+      tags:
+      - Customer
+  /customer/profile:
+    get:
+      consumes:
+      - application/json
+      operationId: customer-get-profile
+      parameters:
+      - description: Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: '#/definitions/model.ResponseSwagGetProfile'
+        "404":
+          description: User not found
+          schema:
+            $ref: '#/definitions/model.Response'
+        "412":
+          description: Failed
+          schema:
+            $ref: '#/definitions/model.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/model.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: Customer - Get Profile
+      tags:
+      - Customer
+  /customer/update-loan/{id}:
+    put:
+      consumes:
+      - application/json
+      operationId: customer-update-loan
+      parameters:
+      - description: Loan ID
+        format: int64
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Request
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/model.RequestUpdateLoan'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: '#/definitions/model.ResponseSwagDataLoan'
+        "404":
+          description: Not found
+          schema:
+            $ref: '#/definitions/model.Response'
+        "412":
+          description: Failed
+          schema:
+            $ref: '#/definitions/model.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/model.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: Customer - Update Loan
+      tags:
+      - Customer
+  /login:
+    post:
+      consumes:
+      - application/json
+      description: Login user for get credentials with JWT Auth
+      operationId: login-user
+      parameters:
+      - description: User Login details
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/model.RequestLogin'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: User login successfully
+          schema:
+            $ref: '#/definitions/model.ResponseSwagLogin'
+        "404":
+          description: User not found
+          schema:
+            $ref: '#/definitions/model.Response'
+        "412":
+          description: Failed
+          schema:
+            $ref: '#/definitions/model.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/model.Response'
+      summary: Login User
+  /register:
+    post:
+      consumes:
+      - application/json
+      description: Register a new user with the provided credentials
+      operationId: register-user
+      parameters:
+      - description: User registration details
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/model.RequestRegister'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: User registered successfully
+          schema:
+            $ref: '#/definitions/model.ResponseSwagRegister'
+        "404":
+          description: User not found
+          schema:
+            $ref: '#/definitions/model.Response'
+        "412":
+          description: Failed
+          schema:
+            $ref: '#/definitions/model.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/model.Response'
+      summary: Register a new user
+swagger: "2.0"
